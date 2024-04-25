@@ -266,3 +266,22 @@ export const upsertAgency = async (agency: Agency, price?: Plan) => {
     console.log('Query upsertAgency -> ', err);
   }
 };
+
+export const getNotificationAndUser = async (agencyId: string) => {
+  try {
+    const response = await db.notification.findMany({
+      where: { agencyId: agencyId },
+      include: {
+        User: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return response;
+  } catch (err) {
+    console.log('Query getNotificationAndUser -> ', err);
+    return null;
+  }
+};
