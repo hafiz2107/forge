@@ -15,12 +15,12 @@ const FileUpload = ({ apiEndPoint, onChange, value }: Props) => {
 
   if (value) {
     return (
-      <div className="flex flex-col justify-center items-baseline">
+      <div className="flex flex-col justify-center items-center">
         {type !== 'pdf' ? (
           <div className="relative w-40 h-40">
             <Image
               src={value}
-              alt="Uploaded image"
+              alt="uploaded image"
               className="object-contain"
               fill
             />
@@ -38,9 +38,9 @@ const FileUpload = ({ apiEndPoint, onChange, value }: Props) => {
             </a>
           </div>
         )}
-        <Button variant="ghost" type="button" onClick={() => onChange('')}>
+        <Button onClick={() => onChange('')} variant="ghost" type="button">
           <X className="h-4 w-4" />
-          Remove logo
+          Remove Logo
         </Button>
       </div>
     );
@@ -49,8 +49,12 @@ const FileUpload = ({ apiEndPoint, onChange, value }: Props) => {
     <div className="w-full bg-muted/30">
       <UploadDropzone
         endpoint={apiEndPoint}
-        onClientUploadComplete={(res) => onChange(res[0].url)}
-        onUploadError={(error: Error) => console.log('Error -> ', error)}
+        onClientUploadComplete={(res) => {
+          onChange(res?.[0].url);
+        }}
+        onUploadError={(error: Error) => {
+          console.log(error);
+        }}
       />
     </div>
   );

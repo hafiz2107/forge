@@ -24,7 +24,7 @@ export const AgencyDetailsFormsSchema = z.object({
     .string()
     .min(2, { message: 'Country must be atleast 2 characters' }),
 
-  goal: z.number().min(1, { message: 'Goal must be atleast 2' }),
+//   goal: z.number().min(1, { message: 'Goal must be atleast 2' }),
   whiteLabel: z.boolean(),
   agencyLogo: z.string().min(1),
 });
