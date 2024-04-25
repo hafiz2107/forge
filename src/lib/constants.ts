@@ -58,7 +58,7 @@ export const pricingCards = [
   },
 ];
 
-export const defaultSideBarProps = (agencyId: string) => {
+export const defaultAgencySideBarProps = (agencyId: string) => {
   return [
     {
       name: 'Dashboard',
@@ -89,6 +89,51 @@ export const defaultSideBarProps = (agencyId: string) => {
       name: 'Team',
       icon: 'shield',
       link: `/agency/${agencyId}/team`,
+    },
+  ];
+};
+
+export const defaultSubAccountSidebarProps = (subAccountId: string) => {
+  return [
+    {
+      name: 'Launchpad',
+      icon: 'clipboardIcon',
+      link: `/subaccount/${subAccountId}/launchpad`,
+    },
+    {
+      name: 'Settings',
+      icon: 'settings',
+      link: `/subaccount/${subAccountId}/settings`,
+    },
+    {
+      name: 'Funnels',
+      icon: 'pipelines',
+      link: `/subaccount/${subAccountId}/funnels`,
+    },
+    {
+      name: 'Media',
+      icon: 'database',
+      link: `/subaccount/${subAccountId}/media`,
+    },
+    {
+      name: 'Automations',
+      icon: 'chip',
+      link: `/subaccount/${subAccountId}/automations`,
+    },
+    {
+      name: 'Pipelines',
+      icon: 'flag',
+      link: `/subaccount/${subAccountId}/pipelines`,
+    },
+    {
+      name: 'Contacts',
+      icon: 'person',
+      link: `/subaccount/${subAccountId}/contacts`,
+    },
+    {
+      name: 'Dashboard',
+      icon: 'category',
+      link: `/subaccount/${subAccountId}`,
     },
   ];
 };

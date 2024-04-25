@@ -3,8 +3,12 @@
 import { auth, clerkClient, currentUser } from '@clerk/nextjs/server';
 import { db } from './db';
 import { redirect } from 'next/navigation';
-import { Agency, Plan, User } from '@prisma/client';
-import { defaultSideBarProps } from './constants';
+import { Agency, Plan, SubAccount, User } from '@prisma/client';
+import {
+  defaultAgencySideBarProps,
+  defaultSubAccountSidebarProps,
+} from './constants';
+import { v4 } from 'uuid';
 
 export const saveActivityLogsNotification = async ({
   agencyId,
@@ -256,7 +260,7 @@ export const upsertAgency = async (agency: Agency, price?: Plan) => {
         },
         ...agency,
         SidebarOption: {
-          create: defaultSideBarProps(agency.id),
+          create: defaultAgencySideBarProps(agency.id),
         },
       },
     });
@@ -284,4 +288,46 @@ export const getNotificationAndUser = async (agencyId: string) => {
     console.log('Query getNotificationAndUser -> ', err);
     return null;
   }
+};
+
+export const upsertSubAccount = async (subAccount: SubAccount) => {
+  if (!subAccount.companyEmail) return null;
+
+  const agencyOwner = await db.user.findFirst({
+    where: { Agency: { id: subAccount.agencyId }, role: 'AGENCY_OWNER' },
+  });
+
+  if (!agencyOwner) {
+    return console.log('Queries/upsertSubAccount -> There is no agency owner');
+  }
+
+  const permissionId = v4();
+  const response = await db.subAccount.upsert({
+    where: { id: subAccount.id },
+    update: subAccount,
+    create: {
+      ...subAccount,
+      Permissions: {
+        create: {
+          access: true,
+          email: agencyOwner?.email,
+          id: permissionId,
+        },
+        connect: {
+          subAccountId: subAccount.id,
+          id: permissionId,
+        },
+      },
+      Pipeline: {
+        create: {
+          name: 'Lead Cycle',
+        },
+      },
+      SidebarOption: {
+        create: defaultSubAccountSidebarProps(subAccount.id),
+      },
+    },
+  });
+
+  return response;
 };

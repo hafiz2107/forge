@@ -34,7 +34,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AgencyDetailsFormsSchema } from './forma-schamas/AgencyDetailsFormSchema';
+import { AgencyDetailsFormsSchema } from './forma-schamas/agency-details-schema';
 import FileUpload from '../global/file-upload';
 import { Input } from '../ui/input';
 import { Switch } from '../ui/switch';

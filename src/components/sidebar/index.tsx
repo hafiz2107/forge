@@ -1,6 +1,6 @@
 import { getAuthUserDetails } from '@/lib/queries';
 import React from 'react';
-import MenuOptions from './menu-opotions';
+import MenuOptions from './menu-options';
 
 type Props = {
   id: string;

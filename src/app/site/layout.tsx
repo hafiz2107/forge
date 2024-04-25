@@ -1,5 +1,5 @@
 import Navigation from '@/components/site/navigation';
-import ClerkClientProvider from '@/provider/ClerkProvider';
+import ClerkClientProvider from '@/provider/clerk-provider';
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (

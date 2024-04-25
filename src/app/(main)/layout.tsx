@@ -1,4 +1,4 @@
-import ClerkClientProvider from '@/provider/ClerkProvider';
+import ClerkClientProvider from '@/provider/clerk-provider';
 import React from 'react';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
