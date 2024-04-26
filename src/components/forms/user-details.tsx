@@ -347,20 +347,20 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
                         key={subAc.id}
                         className="flex flex-col items-center justify-between rounded-lg border p-4"
                       >
-                        <div>
+                        <div className="flex w-full justify-between items-center">
                           <p>{subAc.name}</p>
+                          <Switch
+                            disabled={loadingPermission}
+                            checked={subAccountPermissionDetails?.access}
+                            onCheckedChange={(permission) =>
+                              onChangePermission(
+                                subAc.id,
+                                permission,
+                                subAccountPermissionDetails?.id
+                              )
+                            }
+                          />
                         </div>
-                        <Switch
-                          disabled={loadingPermission}
-                          checked={subAccountPermissionDetails?.access}
-                          onCheckedChange={(permission) =>
-                            onChangePermission(
-                              subAc.id,
-                              permission,
-                              subAccountPermissionDetails?.id
-                            )
-                          }
-                        />
                       </div>
                     );
                   })}

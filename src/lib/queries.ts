@@ -430,3 +430,44 @@ export const deleteSubAccountAction = async (subAccountId: string) => {
     },
   });
 };
+
+export const getAuthUserForTeamPage = async ({
+  agencyId,
+}: {
+  agencyId: string;
+}) => {
+  const authUser = await db.user.findMany({
+    where: {
+      Agency: {
+        id: agencyId,
+      },
+    },
+    include: {
+      Agency: { include: { SubAccount: true } },
+      Permissions: { include: { SubAccount: true } },
+    },
+  });
+
+  return authUser;
+};
+
+export const deleteUser = async (userId: string) => {
+  await clerkClient.users.updateUserMetadata(userId, {
+    privateMetadata: {
+      role: undefined,
+    },
+  });
+  const deletedUser = await db.user.delete({ where: { id: userId } });
+
+  return deletedUser;
+};
+
+export const getUser = async (id: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      id,
+    },
+  })
+
+  return user
+}
