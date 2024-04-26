@@ -94,35 +94,6 @@ export const saveActivityLogsNotification = async ({
   }
 };
 
-export const getAuthUserDetails = async () => {
-  try {
-    const user = await currentUser();
-
-    if (!user) return redirect('/sign-in');
-
-    const userData = await db.user.findUnique({
-      where: { email: user.emailAddresses[0].emailAddress },
-      include: {
-        Agency: {
-          include: {
-            SidebarOption: true,
-            SubAccount: {
-              include: {
-                SidebarOption: true,
-              },
-            },
-          },
-        },
-        Permissions: true,
-      },
-    });
-
-    return userData;
-  } catch (err) {
-    return null;
-  }
-};
-
 const createTeamUser = async (agencyId: string, user: User) => {
   try {
     if (user.role === 'AGENCY_OWNER') return null;
@@ -338,4 +309,108 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
     });
 
   return response;
+};
+
+export const getUserDetailsWithEmail = async (email: string) => {
+  const userDetails = await db.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+
+  return userDetails;
+};
+
+export const getAgencyDetails = async ({ agencyId }: { agencyId: string }) => {
+  const agencyDetails = await db.agency.findUnique({
+    where: {
+      id: agencyId,
+    },
+    include: {
+      SubAccount: true,
+    },
+  });
+
+  return agencyDetails;
+};
+
+export const getUserPermissions = async (userId: string) => {
+  const response = await db.user.findUnique({
+    where: { id: userId },
+    select: { Permissions: { include: { SubAccount: true } } },
+  });
+
+  return response;
+};
+
+export const getAuthUserDetails = async () => {
+  try {
+    const user = await currentUser();
+
+    if (!user) return redirect('/sign-in');
+
+    const userData = await db.user.findUnique({
+      where: { email: user.emailAddresses[0].emailAddress },
+      include: {
+        Agency: {
+          include: {
+            SidebarOption: true,
+            SubAccount: {
+              include: {
+                SidebarOption: true,
+              },
+            },
+          },
+        },
+        Permissions: true,
+      },
+    });
+
+    return userData;
+  } catch (err) {
+    return null;
+  }
+};
+
+export const updateUser = async (user: Partial<User>) => {
+  const response = await db.user.update({
+    where: { email: user.email },
+    data: { ...user },
+  });
+
+  await clerkClient.users.updateUserMetadata(response.id, {
+    privateMetadata: {
+      role: user.role || 'SUBACCOUNT_USER',
+    },
+  });
+
+  return response;
+};
+
+export const changeUserPermissions = async (
+  permissionId: string | undefined,
+  userEmail: string,
+  subAccountId: string,
+  permission: boolean
+) => {
+  try {
+    const response = await db.permissions.upsert({
+      where: {
+        id: permissionId,
+      },
+      update: {
+        access: permission,
+      },
+      create: {
+        access: permission,
+        email: userEmail,
+        subAccountId: subAccountId,
+      },
+    });
+
+    return response;
+  } catch (err) {
+    console.log('queries/changeUserPermissions -> ', err);
+    return null;
+  }
 };

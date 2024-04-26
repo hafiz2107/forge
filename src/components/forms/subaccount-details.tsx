@@ -32,7 +32,7 @@ import { saveActivityLogsNotification, upsertSubAccount } from '@/lib/queries';
 import { useEffect } from 'react';
 import Loading from '../global/loading';
 import { useModal } from '@/provider/modal-provider';
-import { SubAccountDetailsSchema } from './forma-schamas/subaccount-details-schema';
+import { SubAccountDetailsSchema } from './form-schema/subaccount-details.schema';
 
 //CHALLENGE Give access for Subaccount Guest they should see a different view maybe a form that allows them to create tickets
 
