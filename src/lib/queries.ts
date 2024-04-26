@@ -329,5 +329,13 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
     },
   });
 
+  if (response)
+    // TODO Solution for Challenge 1
+    await clerkClient.users.updateUserMetadata(agencyOwner.id, {
+      privateMetadata: {
+        subAccount: response.id,
+      },
+    });
+
   return response;
 };

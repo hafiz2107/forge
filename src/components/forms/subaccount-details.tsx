@@ -37,7 +37,7 @@ import { SubAccountDetailsSchema } from './forma-schamas/subaccount-details-sche
 //CHALLENGE Give access for Subaccount Guest they should see a different view maybe a form that allows them to create tickets
 
 // TODO:Complete the challenge 1
-//CHALLENGE layout.tsx oonly runs once as a result if you remove permissions for someone and they keep navigating the layout.tsx wont fire again. solution- save the data inside metadata for current user.
+//CHALLENGE layout.tsx only runs once as a result if you remove permissions for someone and they keep navigating the layout.tsx wont fire again. solution- save the data inside metadata for current user.
 
 interface SubAccountDetailsProps {
   //To add the sub account to the agency
