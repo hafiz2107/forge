@@ -9,6 +9,7 @@ import {
   defaultSubAccountSidebarProps,
 } from './constants';
 import { v4 } from 'uuid';
+import { CreateMediaType } from './types';
 
 export const saveActivityLogsNotification = async ({
   agencyId,
@@ -501,6 +502,44 @@ export const sendInvitation = async (
     console.log(error);
     throw error;
   }
+
+  return response;
+};
+
+export const getMedia = async (subaccountId: string) => {
+  const medias = await db.subAccount.findUnique({
+    where: {
+      id: subaccountId,
+    },
+    include: {
+      Media: true,
+    },
+  });
+
+  return medias;
+};
+
+export const createMedia = async (
+  subaccountId: string,
+  mediaFile: CreateMediaType
+) => {
+  const response = await db.media.create({
+    data: {
+      link: mediaFile.link,
+      name: mediaFile.name,
+      subAccountId: subaccountId,
+    },
+  });
+
+  return response;
+};
+
+export const deleteMedia = async (fileId: string) => {
+  const response = await db.media.delete({
+    where: {
+      id: fileId,
+    },
+  });
 
   return response;
 };
