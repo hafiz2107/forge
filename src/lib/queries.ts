@@ -3,7 +3,7 @@
 import { auth, clerkClient, currentUser } from '@clerk/nextjs/server';
 import { db } from './db';
 import { redirect } from 'next/navigation';
-import { Agency, Plan, SubAccount, User } from '@prisma/client';
+import { Agency, Plan, Role, SubAccount, User } from '@prisma/client';
 import {
   defaultAgencySideBarProps,
   defaultSubAccountSidebarProps,
@@ -96,15 +96,18 @@ export const saveActivityLogsNotification = async ({
 
 const createTeamUser = async (agencyId: string, user: User) => {
   try {
+    console.log('TTTTTT-> ', user);
     if (user.role === 'AGENCY_OWNER') return null;
 
     const response = await db.user.create({
       data: { ...user },
     });
 
+    console.log('The response is -------> ', response);
     if (!response) return null;
     return response;
   } catch (err) {
+    console.log('Error -> ', err);
     return null;
   }
 };
@@ -122,6 +125,7 @@ export const verifyAndAcceptInvitation = async () => {
   });
 
   if (invitationExists) {
+    console.log('@@@IFF');
     const userDetails = await createTeamUser(invitationExists.agencyId, {
       email: invitationExists.email,
       agencyId: invitationExists.agencyId,
@@ -138,6 +142,7 @@ export const verifyAndAcceptInvitation = async () => {
       subAccountId: undefined,
     });
 
+    console.log('The user details are -> ', userDetails);
     if (userDetails) {
       await clerkClient.users.updateUserMetadata(user.id, {
         privateMetadata: {
@@ -151,7 +156,7 @@ export const verifyAndAcceptInvitation = async () => {
         },
       });
 
-      userDetails.agencyId;
+      return userDetails.agencyId;
     } else {
       return null;
     }
@@ -159,6 +164,8 @@ export const verifyAndAcceptInvitation = async () => {
     const agency = await db.user.findUnique({
       where: { email: user.emailAddresses[0].emailAddress },
     });
+
+    console.log('On verifyAndAcceptInvitation ELSE -> ', agency);
 
     return agency ? agency.agencyId : null;
   }
@@ -467,7 +474,33 @@ export const getUser = async (id: string) => {
     where: {
       id,
     },
-  })
+  });
 
-  return user
-}
+  return user;
+};
+
+export const sendInvitation = async (
+  role: Role,
+  email: string,
+  agencyId: string
+) => {
+  const response = await db.invitation.create({
+    data: { email, agencyId, role },
+  });
+
+  try {
+    const invitation = await clerkClient.invitations.createInvitation({
+      emailAddress: email,
+      redirectUrl: process.env.NEXT_PUBLIC_URL,
+      publicMetadata: {
+        throughInvitation: true,
+        role,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+
+  return response;
+};

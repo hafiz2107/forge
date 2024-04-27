@@ -1,9 +1,8 @@
-import React from 'react'
+import React from 'react';
 
+type Props = {};
 const SubAccountPage = () => {
-  return (
-    <div>SubAccountPage</div>
-  )
-}
+  return <div>SubAccountPage</div>;
+};
 
-export default SubAccountPage
+export default SubAccountPage;

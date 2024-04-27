@@ -53,17 +53,17 @@ const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
           <UserButton afterSignOutUrl="/" />
           <Sheet>
             <SheetTrigger>
-              <div className="rounded-full w-8 h-8 bg-primary flex items-center justify-center text-white ">
+              <div className="rounded-full w-8 h-8 bg-primary flex items-center justify-center text-white">
                 <Bell size={17} />
               </div>
             </SheetTrigger>
-            <SheetContent className="mt-1 mr-1 pr-4 flex flex-col">
-              <SheetHeader>
+            <SheetContent className="mt-4 mr-4 pr-4 overflow-scroll">
+              <SheetHeader className="text-left">
                 <SheetTitle>Notifications</SheetTitle>
                 <SheetDescription>
                   {(role === 'AGENCY_ADMIN' || role === 'AGENCY_OWNER') && (
                     <Card className="flex items-center justify-between p-4">
-                      Current subaccount
+                      Current Subaccount
                       <Switch onCheckedChange={handleClick} />
                     </Card>
                   )}
@@ -72,13 +72,13 @@ const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
               {allNotifications?.map((notification) => (
                 <div
                   key={notification.id}
-                  className="flex flex-col gap-y-2 mb-2 overflow-x-scroll text-ellipsis"
+                  className="flex flex-col gap-y-2 mb-4 overflow-x-scroll text-ellipsis"
                 >
                   <div className="flex gap-2">
                     <Avatar>
                       <AvatarImage
                         src={notification.User.avatarUrl}
-                        alt="Profile picture"
+                        alt="Profile Picture"
                       />
                       <AvatarFallback className="bg-primary">
                         {notification.User.name.slice(0, 2).toUpperCase()}
@@ -104,8 +104,11 @@ const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
                 </div>
               ))}
               {allNotifications?.length === 0 && (
-                <div className="flex items-center justify-center  mb-4 text-muted-foreground">
-                  You have no notification
+                <div
+                  className="flex items-center justify-center text-muted-foreground"
+                  mb-4
+                >
+                  You have no notifications
                 </div>
               )}
             </SheetContent>
