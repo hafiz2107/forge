@@ -59,7 +59,7 @@ const MediaCard = ({ file }: Props) => {
   return (
     <AlertDialog>
       <DropdownMenu>
-        <article className="border w-full rounded-lg bg-slate-900">
+        <article className="border w-full rounded-lg dark:bg-slate-900 dark:text-white bg-slate-200 text-black">
           <div className="relative w-full h-40">
             <Image
               src={file.link}
