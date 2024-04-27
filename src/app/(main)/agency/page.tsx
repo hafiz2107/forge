@@ -1,4 +1,5 @@
 import AgencyDetails from '@/components/forms/agency-details';
+import Unauthorized from '@/components/unauthorized';
 import { getAuthUserDetails, verifyAndAcceptInvitation } from '@/lib/queries';
 import { currentUser } from '@clerk/nextjs/server';
 import { Plan } from '@prisma/client';
@@ -33,7 +34,7 @@ const Page = async ({
         const statePath = searchParams.state.split('___')[0];
         const stateAgencyId = searchParams.state.split('___')[1];
 
-        if (!stateAgencyId) return <div>Not Authorised</div>;
+        if (!stateAgencyId) return <Unauthorized />;
 
         return redirect(
           `/agency/${stateAgencyId}/${statePath}?code=${searchParams.code}`
