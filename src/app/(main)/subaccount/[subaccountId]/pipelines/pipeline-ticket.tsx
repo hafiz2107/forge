@@ -81,6 +81,7 @@ const PipelineTicket = ({
       setAllTickets((tickets) => tickets.filter((t) => t.id !== ticket.id));
 
       const response = await deleteTicket(ticket.id);
+      
       toast({
         title: 'Deleted',
         description: 'The ticket have been removed from lane',
