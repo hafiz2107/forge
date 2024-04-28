@@ -127,6 +127,7 @@ const UserDetails = ({ id, type, subAccounts, userData }: Props) => {
       val
     );
     if (type === 'agency') {
+      // TODO Fix userData?.name showing as undefined bug on Notifications
       await saveActivityLogsNotification({
         agencyId: authUserData?.Agency?.id,
         description: `Gave ${userData?.name} access to | ${
