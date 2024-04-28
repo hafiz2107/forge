@@ -11,7 +11,7 @@ import { FunnelsForSubAccount } from '@/lib/types';
 import { useModal } from '@/provider/modal-provider';
 import { FunnelPage } from '@prisma/client';
 import { Check, ExternalLink, LucideEdit } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DragDropContext,
   DragStart,
@@ -20,14 +20,15 @@ import {
 } from 'react-beautiful-dnd';
 
 import {
-    Card,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-  } from '@/components/ui/card'
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import Link from 'next/link';
 import FunnelPagePlaceholder from '@/components/icons/funnel-page-placeholder';
 import FunnelStepCard from './funnel-step-card';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   funnel: FunnelsForSubAccount;
@@ -40,8 +41,9 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
   const [clickedPage, setClickedPage] = useState<FunnelPage | undefined>(
     pages[0]
   );
+  const router = useRouter();
   const [pagesState, setPagesState] = useState(pages);
-  const { setOpen } = useModal();
+  const { setOpen, setClose } = useModal();
   const onDragStart = (event: DragStart) => {
     const { draggableId } = event;
     const value = pagesState.find((val) => val.id === draggableId);
@@ -75,8 +77,10 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
           },
           funnelId
         );
+        router.refresh();
       } catch (error) {
         console.log(error);
+        router.refresh();
         toast({
           variant: 'destructive',
           title: 'Failed',

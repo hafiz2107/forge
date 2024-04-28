@@ -11,10 +11,9 @@ import { useModal } from '@/provider/modal-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Contact, Tag, User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import React, { HtmlHTMLAttributes, useEffect, useRef, useState } from 'react';
+import React, {  useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { TicketFormSchema } from './form-schema/ticket-form';
 import { toast } from '../ui/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import {
@@ -52,6 +51,7 @@ import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import Loading from '../global/loading';
 import TagCreator from '../global/tag-creator';
+import { TicketFormSchema } from './form-schema/ticket-form';
 
 type Props = {
   getNewTicket: (ticket: TicketWithTags[0]) => void;
