@@ -11,6 +11,7 @@ import {
 import {
   _getTicketsWithAllRelations,
   getAuthUserDetails,
+  getFunnels,
   getMedia,
   getPipelineDetails,
   getTicketsWithTags,
@@ -79,3 +80,9 @@ export type TicketWithTags = Prisma.PromiseReturnType<
 export type TicketDetails = Prisma.PromiseReturnType<
   typeof _getTicketsWithAllRelations
 >;
+
+export type FunnelsForSubAccount = Prisma.PromiseReturnType<
+  typeof getFunnels
+>[0];
+
+export type UpsertFunnelPage = Prisma.FunnelPageCreateWithoutFunnelInput;

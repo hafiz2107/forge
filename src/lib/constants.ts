@@ -71,11 +71,6 @@ export const defaultAgencySideBarProps = (agencyId: string) => {
       link: `/agency/${agencyId}/launchpad`,
     },
     {
-      name: 'Billing',
-      icon: 'payment',
-      link: `/agency/${agencyId}/billing`,
-    },
-    {
       name: 'Settings',
       icon: 'settings',
       link: `/agency/${agencyId}/settings`,

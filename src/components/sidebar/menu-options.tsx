@@ -89,7 +89,8 @@ const MenuOptions = ({
             <Image
               src={sidebarLogo}
               alt="Sidebar logo"
-              fill
+              width={170}
+              height={170}
               className="rounded-md object-contain"
             />
           </AspectRatio>
