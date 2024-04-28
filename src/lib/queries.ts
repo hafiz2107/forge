@@ -809,3 +809,52 @@ export const upsertTicket = async (
 
   return response;
 };
+
+export const deleteTicket = async (ticketId: string) => {
+  const res = await db.ticket.delete({
+    where: {
+      id: ticketId,
+    },
+  });
+
+  return res;
+};
+
+export const deleteTag = async (tagId: string) => {
+  const res = await db.tag.delete({
+    where: {
+      id: tagId,
+    },
+  });
+
+  return res;
+};
+
+export const upsertTag = async (
+  subaccountId: string,
+  tag: Prisma.TagUncheckedCreateInput
+) => {
+  const res = await db.tag.upsert({
+    where: {
+      id: tag.id || v4(),
+      subAccountId: subaccountId,
+    },
+    create: { ...tag, subAccountId: subaccountId },
+    update: tag,
+  });
+
+  return res;
+};
+
+export const getTagsForSubaccount = async (subaccountId: string) => {
+  const response = await db.subAccount.findUnique({
+    where: {
+      id: subaccountId,
+    },
+    select: {
+      Tags: true,
+    },
+  });
+
+  return response;
+};

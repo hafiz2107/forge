@@ -31,9 +31,10 @@ import { useRouter } from 'next/navigation';
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import CustomModal from '@/components/global/custom-modal';
 // TODO Wireup tickets
-// import PipelineTicket from './pipeline-ticket';
+
 import { useModal } from '@/provider/modal-provider';
 import TicketForm from '@/components/forms/ticket-form';
+import PipelineTicket from '../pipeline-ticket';
 
 interface PipelaneLaneProps {
   setAllTickets: Dispatch<SetStateAction<TicketWithTags>>;
@@ -183,14 +184,14 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
                         >
                           {tickets.map((ticket, index) => (
                             <div key={ticket.id}>
-                              {/* <PipelineTicket
-                              allTickets={allTickets}
-                              setAllTickets={setAllTickets}
-                              subaccountId={subaccountId}
-                              ticket={ticket}
-                              key={ticket.id.toString()}
-                              index={index}
-                            /> */}
+                              <PipelineTicket
+                                allTickets={allTickets}
+                                setAllTickets={setAllTickets}
+                                subaccountId={subaccountId}
+                                ticket={ticket}
+                                key={ticket.id.toString()}
+                                index={index}
+                              />
                             </div>
                           ))}
                           {provided.placeholder}
